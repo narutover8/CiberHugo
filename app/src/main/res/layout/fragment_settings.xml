@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titleSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="36dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingTop="50px"/>
+
+    <Button
+        android:id="@+id/btnChangeUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cambiar nombre de usuario"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/border_white"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutChangeUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/etPreviousUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre anterior"
+            android:textColorHint="@color/white"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:enabled="false"/>
+
+        <EditText
+            android:id="@+id/etNewUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nuevo nombre"
+            android:textColorHint="@color/white"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnConfirmUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cambiar contraseña"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/border_white"
+        android:layout_marginTop="32dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutChangePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/etCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña actual"
+            android:textColorHint="@color/white"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_marginTop="8dp"
+            android:inputType="textPassword"/>
+
+        <EditText
+            android:id="@+id/etNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nueva contraseña"
+            android:textColorHint="@color/white"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_marginTop="8dp"
+            android:inputType="textPassword"/>
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirmar contraseña"
+            android:textColorHint="@color/white"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_marginTop="8dp"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnConfirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/border_white"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"/>
+    </LinearLayout>
+
+</LinearLayout>

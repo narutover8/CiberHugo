@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">CiberHugo</string>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="selectLangText">Selecciona tu idioma</string>
+    <string name="username_label">Nombre de usuario:</string>
+    <string name="username_hint">Introduce tu nombre de usuario</string>
+    <string name="password_label">Contraseña:</string>
+    <string name="password_hint">Introduce la contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="register_title">Registrarse en CiberHugo</string>
+    <string name="email_label">Introduce tu correo electrónico:</string>
+    <string name="confirm_password_label">Confirma tu contraseña:</string>
+    <string name="phone_label">NºTfno</string>
+    <string name="phone_hint">Introduce tu nºtfno</string>
+    <string name="confirm_password_hint">Vuelve a escribir tu contraseña</string>
+    <string name="register_button">CREAR CUENTA</string>
+    <string name="email_hint">Introduce tu email</string>
+    <string name="txtToRegister">¿No tienes una cuenta? Regístrate aquí</string>
+    <string name="txtToLogin">¿Ya tienes una cuenta? Inicia sesión</string>
+    <string name="MyWallet">Mi cartera</string>
+    <string name="MyHome">Menú Principal</string>
+    <string name="MySettings">Ajustes</string>
+    <string name="QrAuthTitle">Escanear QR</string>
+    <string name="QrButton">Escanear</string>
+
+    <!-- Navigation Drawer strings -->
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+
+    <!-- Menu options -->
+    <string name="menu_logs">Consultar logs</string>
+    <string name="menu_manage_reservations">Gestionar Reservas</string>
+    <string name="menu_modify_users">Modificar Usuarios</string>
+    <string name="menu_ban_users">Vetar Usuarios</string>
+
+    <!-- Main content -->
+    <string name="main_content">Main Content</string>
+
+    <!-- Menu button text -->
+    <string name="menu_button_text">Menu</string>
+    <string name="logoutAdmin">Cerrar sesión</string>
+    <string name="backToMenu">Volver</string>
+
+    <string-array name="people_array">
+            <item>2 personas</item>
+            <item>3 personas</item>
+            <item>4 personas</item>
+            <item>5 o más</item>
+        </string-array>
+
+        <string-array name="time_array">
+            <item>12:00</item>
+            <item>13:00</item>
+            <item>14:00</item>
+            <item>15:00</item>
+            <item>16:00</item>
+        </string-array>
+
+        <string-array name="reason_array">
+            <item>Cumpleaños</item>
+            <item>Aniversario</item>
+            <item>Reunión</item>
+            <item>Otro</item>
+        </string-array>
+
+</resources>

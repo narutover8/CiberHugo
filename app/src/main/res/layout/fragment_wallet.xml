@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_register_background">
+
+    <TextView
+        android:id="@+id/titleWallet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MyWallet"
+        android:textSize="36dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="50px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/titleWallet">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona la cantidad de horas:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_1h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 Hora - 2€"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingVertical="8dp"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radio_3h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 Horas - 5€"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingVertical="8dp"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radio_5h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 Horas - 8€"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingVertical="8dp"
+                android:gravity="center" />
+
+            <RadioButton
+                android:id="@+id/radio_10h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Horas - 10€"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:paddingVertical="8dp"
+                android:gravity="center" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comprar"
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:paddingVertical="16dp" />
+
+    </LinearLayout>
+</RelativeLayout>

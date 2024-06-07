@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main content layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_register_background">
+
+        <!-- Centered layout for title and image -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="43dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Image -->
+            <ImageView
+                android:id="@+id/center_image"
+                android:layout_width="300dp"
+                android:layout_height="253dp"
+                android:contentDescription="Imagen grande en el centro"
+                android:src="@drawable/logociberhugo" />
+        </LinearLayout>
+
+        <!-- Button to open/close drawer -->
+        <Button
+            android:id="@+id/button_open_drawer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/menu_ico"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="20dp"/>
+
+        <!-- Button to logout -->
+        <Button
+            android:id="@+id/button_logoutAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:text="@string/logoutAdmin"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+    <!-- Navigation view -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/background_without_lines">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Menu"
+                android:textSize="24sp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@color/black"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/button_logs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Consultar logs"
+                android:gravity="start"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/button_manage_reservations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gestionar Reservas"
+                android:gravity="start"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/button_modify_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Modificar Usuarios"
+                android:gravity="start"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/button_ban_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vetar Usuarios"
+                android:gravity="start"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1946529079",
+    "project_id": "ciberhugo-1b686",
+    "storage_bucket": "ciberhugo-1b686.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1946529079:android:8d866103543ec209ff7eb2",
+        "android_client_info": {
+          "package_name": "com.example.ciberhugo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpcKGkH456pnRtHbPhGAYSp3YC7WjHVM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

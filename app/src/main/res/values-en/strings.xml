@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CiberHugo</string>
+    <string name="login_title">Login</string>
+    <string name="selectLangText">Select your language</string>
+    <string name="username_label">Username:</string>
+    <string name="username_hint">Introduce your username</string>
+    <string name="password_label">Password:</string>
+    <string name="password_hint">Introduce your password</string>
+    <string name="login_button">Sign in</string>
+    <string name="register_title">Sign on CiberHugo</string>
+    <string name="email_label">Email:</string>
+    <string name="confirm_password_label">Confirm your password</string>
+    <string name="phone_label">Phone number:</string>
+    <string name="phone_hint">Introduce your phone</string>
+    <string name="confirm_password_hint">Repeat Password</string>
+    <string name="register_button">CREATE ACCOUNT</string>
+    <string name="email_hint">Introduce your email</string>
+    <string name="txtToRegister">You do not have an account? Sign up here</string>
+    <string name="txtToLogin">Do you already have an account? Log in</string>
+    <string name="MyWallet">My wallet</string>
+    <string name="MyHome">Main menu</string>
+    <string name="MySettings">Settings</string>
+    <string name="QrAuthTitle">Scan QR</string>
+    <string name="QrButton">Scan</string>
+
+    <string-array name="people_array">
+        <item>2 person</item>
+        <item>3 people</item>
+        <item>4 people</item>
+        <item>+5 people</item>
+    </string-array>
+
+    <string-array name="time_array">
+        <item>10:00 PM</item>
+        <item>1:00 PM</item>
+        <item>4:00 PM</item>
+        <item>6:00 PM</item>
+        <item>9:00 PM</item>
+    </string-array>
+
+    <string-array name="reason_array">
+        <item>Birthday</item>
+        <item>Meeting</item>
+        <item>Other</item>
+    </string-array>
+</resources>
