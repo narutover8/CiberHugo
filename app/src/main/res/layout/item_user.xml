@@ -1,90 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/white">
+    android:background="@color/black">
 
-    <!-- Imagen del perfil del usuario -->
     <ImageView
-        android:id="@+id/imageViewProfile"
-        android:layout_width="158dp"
-        android:layout_height="135dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/userico" />
-
-    <!-- Información del usuario y elementos editables -->
-    <LinearLayout
+        android:layout_width="210dp"
+        android:layout_height="170dp"
+        android:src="@drawable/userico"
+        android:layout_gravity="center"
+        android:background="@color/white"></ImageView>
+    <EditText
+        android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/white"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="8dp"
+        android:hint="@string/emailLbl"
+        android:inputType="textEmailAddress"
+        android:enabled="false"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="20px"
+        android:background="@color/white"/>
 
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/emailLbl"
-            android:inputType="textEmailAddress"
-            android:enabled="false"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/editTextPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/phone_label"
-            android:inputType="phone"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/editTextUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/username_label"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/editTextTimeLeft"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="@string/timeLeftHint"
-            android:inputType="number"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <CheckBox
-            android:id="@+id/checkBoxAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Admin" />
-    </LinearLayout>
-
-    <!-- Separador -->
-    <View
+    <EditText
+        android:id="@+id/editTextPhone"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/black"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/phone_label"
+        android:inputType="phone"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="20px"
+        android:background="@color/white"/>
 
-    <!-- Botón Guardar -->
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/username_label"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:layout_marginTop="20px"
+        android:background="@color/white"/>
+
+    <EditText
+        android:id="@+id/editTextTimeLeft"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/timeLeftHint"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="20px"
+        android:background="@color/white"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxAdmin"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:text="Admin"
+        android:layout_marginTop="20px"
+        android:background="@color/white"/>
+
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonSaveUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/SaveBtn"
-        android:layout_gravity="center"/>
-
+        android:text="Guardar"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center" />
 </LinearLayout>

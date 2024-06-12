@@ -3,8 +3,6 @@ package com.example.ciberhugo.view;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +24,7 @@ public class AdminModifyUsersActivity extends AppCompatActivity {
     private UserAdapter userAdapter;
     private List<User> userList = new ArrayList<>();
     private FirebaseFirestore db;
-    private Button btnBackToMenu, btnSave;
+    private Button btnBackToMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +42,7 @@ public class AdminModifyUsersActivity extends AppCompatActivity {
         loadUsers();
 
         btnBackToMenu = findViewById(R.id.button_back);
-        btnBackToMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        btnSave = findViewById(R.id.buttonSave);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveChanges();
-            }
-        });
+        btnBackToMenu.setOnClickListener(v -> finish());
     }
 
     private void loadUsers() {
@@ -67,6 +52,7 @@ public class AdminModifyUsersActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         userList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
                             String email = document.getString("email");
                             String username = document.getString("user");
                             String phone = document.getString("phone");
@@ -77,7 +63,7 @@ public class AdminModifyUsersActivity extends AppCompatActivity {
                             Long timeLeftObj = document.getLong("timeLeft");
                             long timeLeft = (timeLeftObj != null) ? timeLeftObj : 0L;
 
-                            User user = new User(email, username, phone, isAdmin, timeLeft);
+                            User user = new User(id, email, username, phone, isAdmin, timeLeft);
                             userList.add(user);
                         }
                         userAdapter.notifyDataSetChanged();
@@ -85,60 +71,5 @@ public class AdminModifyUsersActivity extends AppCompatActivity {
                         Toast.makeText(AdminModifyUsersActivity.this, "Error getting users: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void saveChanges() {
-        for (int i = 0; i < recyclerViewUsers.getChildCount(); i++) {
-            View itemView = recyclerViewUsers.getChildAt(i);
-            User user = userList.get(i);
-
-            EditText editTextEmail = itemView.findViewById(R.id.editTextEmail);
-            EditText editTextPhone = itemView.findViewById(R.id.editTextPhone);
-            EditText editTextUsername = itemView.findViewById(R.id.editTextUsername);
-            EditText editTextTimeLeft = itemView.findViewById(R.id.editTextTimeLeft);
-            CheckBox checkBoxAdmin = itemView.findViewById(R.id.checkBoxAdmin);
-
-            String enteredEmail = editTextEmail.getText().toString().trim();
-            String enteredPhone = editTextPhone.getText().toString().trim();
-            String enteredUsername = editTextUsername.getText().toString().trim();
-            String enteredTimeLeft = editTextTimeLeft.getText().toString().trim();
-            boolean enteredIsAdmin = checkBoxAdmin.isChecked();
-
-            if (!enteredEmail.isEmpty()) {
-                user.setEmail(enteredEmail);
-            }
-
-            if (!enteredPhone.isEmpty()) {
-                user.setPhone(enteredPhone);
-            }
-
-            if (!enteredUsername.isEmpty()) {
-                user.setUsername(enteredUsername);
-            }
-
-            if (!enteredTimeLeft.isEmpty()) {
-                long timeLeftInHours = Long.parseLong(enteredTimeLeft);
-                long timeLeftInSeconds = timeLeftInHours * 3600;
-                user.setTimeLeft((int) timeLeftInSeconds);
-            }
-
-            user.setAdmin(enteredIsAdmin);
-
-            db.collection("users").document(user.getEmail())
-                    .update("email", user.getEmail(),
-                            "user", user.getUsername(),
-                            "phone", user.getPhone(),
-                            "timeLeft", user.getTimeLeft(),
-                            "isAdmin", user.isAdmin())
-                    .addOnSuccessListener(aVoid -> {
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error al guardar cambios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        }
-
-        userAdapter.notifyDataSetChanged();
-
-        Toast.makeText(this, "Cambios guardados", Toast.LENGTH_SHORT).show();
     }
 }
