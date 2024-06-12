@@ -40,6 +40,37 @@
     <string name="menu_button_text">Menu</string>
     <string name="logoutAdmin">Cerrar sesión</string>
     <string name="backToMenu">Volver</string>
+    <string name="LogsBtnAdmin">Consultar logs</string>
+    <string name="ManageReservationBtnAdmin">Gestionar reservas</string>
+    <string name="ModUsrBtnAdmin">Modificar usuarios</string>
+    <string name="BanBtnAdmin">Vetar usuario</string>
+    <string name="BanTitle">VETAR USUARIOS</string>
+    <string name="BanHintAdmin">Introduce el email del usuario a vetar</string>
+    <string name="SaveBtn">Guardar</string>
+    <string name="WebBtn">Ir a la web</string>
+    <string name="IntroduceReservationBtnAdmin">Introduce tu reserva</string>
+    <string name="closeSessionBtn">Cerrar sesión</string>
+    <string name="WelcomeLbl">"Bienvenido, "</string>
+    <string name="SettingsLblTitle">Ajustes</string>
+    <string name="ChangeNameBtn">Cambiar nombre de usuario</string>
+    <string name="oldNameLbl">Nombre anterior</string>
+    <string name="newNameLbl">Nuevo nombre</string>
+    <string name="ConfirmBtn">Confirmar</string>
+    <string name="ChangePswdBtn">Cambiar contraseña</string>
+    <string name="ActualPswdHint">Contraseña actual</string>
+    <string name="NewPswdHint">Nueva contraseña</string>
+    <string name="ConfirmPswdHint">Confirmar contraseña</string>
+    <string name="BuyHoursBtn">Comprar</string>
+    <string name="MyWalletLblTitle">Mi cartera</string>
+    <string name="selectHoursLbl">Selecciona la cantidad de horas:</string>
+    <string name="actionLbl">Accion</string>
+    <string name="detailLbl">Detalles</string>
+    <string name="emailLbl">Correo</string>
+    <string name="dateLbl">Fecha</string>
+    <string name="editReservBtn">Editar</string>
+    <string name="deleteReservBtn">Eliminar</string>
+    <string name="hourLbl">Hora</string>
+    <string name="timeLeftHint">Tiempo restante (horas)</string>
 
     <string-array name="people_array">
             <item>2 personas</item>

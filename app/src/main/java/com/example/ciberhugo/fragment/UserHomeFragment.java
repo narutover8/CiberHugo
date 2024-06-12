@@ -1,5 +1,6 @@
 package com.example.ciberhugo.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.ciberhugo.R;
@@ -88,19 +90,12 @@ public class UserHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Define la URL a la que deseas dirigir al usuario
-                String url = "https://www.youtube.com/watch?v=qCm0pMZIQFs";
+                String url = "https://villodreshugo.wixsite.com/ciberhugo";
+                Uri link = Uri.parse(url);
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            Intent intent = new Intent(Intent.ACTION_VIEW, link);
                 startActivity(intent);
 
-                // Comprueba si hay una actividad que pueda manejar este intent
-                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    // Si hay una actividad que puede manejar este intent, inicia el intent
-                    startActivity(intent);
-                } else {
-                    // Si no hay actividad que pueda manejar este intent, muestra un mensaje de error
-                    Toast.makeText(getActivity(), "No se pudo abrir el enlace", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -110,25 +105,19 @@ public class UserHomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
-        // Obtener el tiempo restante del TextView
-        String timeString = timeCounter.getText().toString();
-        long timeLeftInSeconds = parseTimeStringToSeconds(timeString);
-
-        // Actualizar el tiempo restante en la base de datos
-        updateRemainingTimeInDatabase(email, timeLeftInSeconds);
+        updateRemainingTime();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        updateRemainingTime();
+    }
 
-        // Obtener el tiempo restante del TextView
-        String timeString = timeCounter.getText().toString();
-        long timeLeftInSeconds = parseTimeStringToSeconds(timeString);
-
-        // Actualizar el tiempo restante en la base de datos
-        updateRemainingTimeInDatabase(email, timeLeftInSeconds);
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTimeCounter();
     }
 
     private void getUserDetails() {
@@ -139,13 +128,17 @@ public class UserHomeFragment extends Fragment {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         DocumentSnapshot document = task.getResult().getDocuments().get(0);
                         Long timeLeft = document.getLong("timeLeft");
-                        String username = document.getString("user"); // Obtener el nombre del usuario
+                        String username = document.getString("user");
                         if (username != null) {
-                            welcomeText.setText("Bienvenido, " + username); // Establecer el texto de bienvenida
+                            welcomeText.setText("Bienvenido, " + username);
                         } else {
-                            welcomeText.setText("Bienvenido, Usuario"); // Texto por defecto si no se encuentra el nombre
+                            welcomeText.setText("Bienvenido, Usuario");
                         }
                         if (timeLeft != null) {
+                            long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+                            db.collection("users").document(document.getId())
+                                    .update("startTime", currentTimeInSeconds);
+                            saveStartTimeToPreferences(currentTimeInSeconds);
                             startCountDown(timeLeft);
                         } else {
                             timeCounter.setText("Error: timeLeft not found");
@@ -154,6 +147,16 @@ public class UserHomeFragment extends Fragment {
                         timeCounter.setText("Error: User not found");
                     }
                 });
+    }
+
+    private void saveStartTimeToPreferences(long startTimeInSeconds) {
+        Context context = getActivity();
+        if (context != null) {
+            context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                    .edit()
+                    .putLong("startTime", startTimeInSeconds)
+                    .apply();
+        }
     }
 
     private void startCountDown(long timeLeftInSeconds) {
@@ -173,8 +176,51 @@ public class UserHomeFragment extends Fragment {
             @Override
             public void onFinish() {
                 timeCounter.setText("00:00:00");
+                timeCounter.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
+                Toast.makeText(getActivity(), "Tu tiempo ha terminado, por favor compra más horas.", Toast.LENGTH_LONG).show();
+
             }
         }.start();
+    }
+
+    private void updateTimeCounter() {
+        Context context = getActivity();
+        if (context != null) {
+            long startTimeInSeconds = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                    .getLong("startTime", -1);
+            if (startTimeInSeconds != -1) {
+                long currentTimeInSeconds = System.currentTimeMillis() / 1000;
+                long elapsedTimeInSeconds = currentTimeInSeconds - startTimeInSeconds;
+
+                db.collection("users")
+                        .whereEqualTo("email", email)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                                Long originalTimeLeft = document.getLong("timeLeft");
+                                if (originalTimeLeft != null) {
+                                    long newTimeLeftInSeconds = originalTimeLeft - elapsedTimeInSeconds;
+                                    if (newTimeLeftInSeconds <= 0) {
+                                        timeCounter.setText("00:00:00");
+                                        Toast.makeText(getActivity(), "Tu tiempo ha terminado, por favor compra más horas.", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        startCountDown(newTimeLeftInSeconds);
+                                    }
+                                }
+                            }
+                        });
+            }
+        }
+    }
+
+    private void updateRemainingTime() {
+        // Obtener el tiempo restante del TextView
+        String timeString = timeCounter.getText().toString();
+        long timeLeftInSeconds = parseTimeStringToSeconds(timeString);
+
+        // Actualizar el tiempo restante en la base de datos
+        updateRemainingTimeInDatabase(email, timeLeftInSeconds);
     }
 
     private long parseTimeStringToSeconds(String timeString) {

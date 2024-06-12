@@ -91,7 +91,7 @@
                 android:id="@+id/button_logs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Consultar logs"
+                android:text="@string/LogsBtnAdmin"
                 android:gravity="start"
                 android:padding="16dp"/>
 
@@ -99,7 +99,7 @@
                 android:id="@+id/button_manage_reservations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gestionar Reservas"
+                android:text="@string/ManageReservationBtnAdmin"
                 android:gravity="start"
                 android:padding="16dp"/>
 
@@ -107,7 +107,7 @@
                 android:id="@+id/button_modify_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Modificar Usuarios"
+                android:text="@string/ModUsrBtnAdmin"
                 android:gravity="start"
                 android:padding="16dp"/>
 
@@ -115,7 +115,7 @@
                 android:id="@+id/button_ban_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vetar Usuarios"
+                android:text="@string/BanBtnAdmin"
                 android:gravity="start"
                 android:padding="16dp"/>
 

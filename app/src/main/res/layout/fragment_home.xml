@@ -15,7 +15,7 @@
         android:textColor="@android:color/white"
         android:padding="16dp"
         android:layout_gravity="center"
-        android:text="Bienvenido, "/>
+        android:text="@string/WelcomeLbl"/>
 
     <!-- Contador de tiempo -->
     <TextView
@@ -41,14 +41,14 @@
             android:id="@+id/button_website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Website"
+            android:text="@string/WebBtn"
             android:layout_margin="8dp"/>
 
         <Button
             android:id="@+id/button_reserve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reservar"
+            android:text="@string/IntroduceReservationBtnAdmin"
             android:layout_margin="8dp"/>
 
     </LinearLayout>
@@ -58,7 +58,7 @@
         android:id="@+id/button_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cerrar Sesión"
+        android:text="@string/closeSessionBtn"
         android:layout_marginTop="29dp"
         android:backgroundTint="@color/black"/>
 

@@ -1,46 +1,95 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CiberHugo</string>
     <string name="login_title">Login</string>
     <string name="selectLangText">Select your language</string>
     <string name="username_label">Username:</string>
-    <string name="username_hint">Introduce your username</string>
+    <string name="username_hint">Enter your username</string>
     <string name="password_label">Password:</string>
-    <string name="password_hint">Introduce your password</string>
-    <string name="login_button">Sign in</string>
-    <string name="register_title">Sign on CiberHugo</string>
-    <string name="email_label">Email:</string>
-    <string name="confirm_password_label">Confirm your password</string>
-    <string name="phone_label">Phone number:</string>
-    <string name="phone_hint">Introduce your phone</string>
-    <string name="confirm_password_hint">Repeat Password</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="login_button">Login</string>
+    <string name="register_title">Register at CiberHugo</string>
+    <string name="email_label">Enter your email:</string>
+    <string name="confirm_password_label">Confirm your password:</string>
+    <string name="phone_label">Phone No.</string>
+    <string name="phone_hint">Enter your phone number</string>
+    <string name="confirm_password_hint">Re-enter your password</string>
     <string name="register_button">CREATE ACCOUNT</string>
-    <string name="email_hint">Introduce your email</string>
-    <string name="txtToRegister">You do not have an account? Sign up here</string>
-    <string name="txtToLogin">Do you already have an account? Log in</string>
-    <string name="MyWallet">My wallet</string>
-    <string name="MyHome">Main menu</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="txtToRegister">Dont have an account? Register here</string>
+    <string name="txtToLogin">Already have an account? Login</string>
+    <string name="MyWallet">My Wallet</string>
+    <string name="MyHome">Main Menu</string>
     <string name="MySettings">Settings</string>
     <string name="QrAuthTitle">Scan QR</string>
     <string name="QrButton">Scan</string>
 
+    <!-- Navigation Drawer strings -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Menu options -->
+    <string name="menu_logs">Check logs</string>
+    <string name="menu_manage_reservations">Manage Reservations</string>
+    <string name="menu_modify_users">Modify Users</string>
+    <string name="menu_ban_users">Ban Users</string>
+
+    <!-- Main content -->
+    <string name="main_content">Main Content</string>
+
+    <!-- Menu button text -->
+    <string name="menu_button_text">Menu</string>
+    <string name="logoutAdmin">Logout</string>
+    <string name="backToMenu">Back</string>
+    <string name="LogsBtnAdmin">Check logs</string>
+    <string name="ManageReservationBtnAdmin">Manage reservations</string>
+    <string name="ModUsrBtnAdmin">Modify users</string>
+    <string name="BanBtnAdmin">Ban user</string>
+    <string name="BanTitle">BAN USERS</string>
+    <string name="BanHintAdmin">Enter the users email to ban</string>
+    <string name="SaveBtn">Save</string>
+    <string name="WebBtn">Go to the website</string>
+    <string name="IntroduceReservationBtnAdmin">Enter your reservation</string>
+    <string name="closeSessionBtn">Log out</string>
+    <string name="WelcomeLbl">"Welcome, "</string>
+    <string name="SettingsLblTitle">Settings</string>
+    <string name="ChangeNameBtn">Change username</string>
+    <string name="oldNameLbl">Previous name</string>
+    <string name="newNameLbl">New name</string>
+    <string name="ConfirmBtn">Confirm</string>
+    <string name="ChangePswdBtn">Change password</string>
+    <string name="ActualPswdHint">Current password</string>
+    <string name="NewPswdHint">New password</string>
+    <string name="ConfirmPswdHint">Confirm password</string>
+    <string name="BuyHoursBtn">Buy</string>
+    <string name="MyWalletLblTitle">My wallet</string>
+    <string name="selectHoursLbl">Select the number of hours:</string>
+    <string name="actionLbl">Action</string>
+    <string name="detailLbl">Details</string>
+    <string name="emailLbl">Email</string>
+    <string name="dateLbl">Date</string>
+    <string name="editReservBtn">Edit</string>
+    <string name="deleteReservBtn">Delete</string>
+    <string name="hourLbl">Hour</string>
+    <string name="timeLeftHint">Remaining time (hours)</string>
+
     <string-array name="people_array">
-        <item>2 person</item>
+        <item>2 people</item>
         <item>3 people</item>
         <item>4 people</item>
-        <item>+5 people</item>
+        <item>5 or more</item>
     </string-array>
 
     <string-array name="time_array">
-        <item>10:00 PM</item>
-        <item>1:00 PM</item>
-        <item>4:00 PM</item>
-        <item>6:00 PM</item>
-        <item>9:00 PM</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
     </string-array>
 
     <string-array name="reason_array">
         <item>Birthday</item>
+        <item>Anniversary</item>
         <item>Meeting</item>
         <item>Other</item>
     </string-array>

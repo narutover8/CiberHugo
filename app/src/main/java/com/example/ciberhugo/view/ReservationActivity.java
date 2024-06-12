@@ -62,7 +62,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedReason = parent.getItemAtPosition(position).toString();
-                if (selectedReason.equals("Other")) {
+                if (selectedReason.equals("Other") || selectedReason.equals("Otro")) {
                     editTextOtherReason.setVisibility(View.VISIBLE);
                 } else {
                     editTextOtherReason.setVisibility(View.GONE);

@@ -23,20 +23,20 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha"
+            android:text="@string/dateLbl"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/actionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Acción" />
+            android:text="@string/actionLbl" />
 
         <TextView
             android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hora" />
+            android:text="@string/hourLbl" />
 
     </LinearLayout>
 
@@ -44,12 +44,12 @@
         android:id="@+id/button_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar" />
+        android:text="@string/editReservBtn" />
 
     <Button
         android:id="@+id/button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar" />
+        android:text="@string/deleteReservBtn" />
 
 </LinearLayout>
