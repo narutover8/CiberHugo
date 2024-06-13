@@ -57,6 +57,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:text="@string/logoutAdmin"
+            android:backgroundTint="@color/red"
             android:layout_centerInParent="true"/>
 
 

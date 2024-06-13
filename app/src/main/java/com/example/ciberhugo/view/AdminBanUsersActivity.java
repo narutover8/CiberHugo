@@ -1,3 +1,10 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ */
+
 package com.example.ciberhugo.view;
 
 import android.os.Bundle;
@@ -17,6 +24,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * Actividad para que los administradores puedan prohibir a usuarios específicos.
+ * Verifica la existencia del correo electrónico en Firestore y actualiza el estado de prohibición.
+ */
 public class AdminBanUsersActivity extends AppCompatActivity {
 
     private EditText editTextEmail;
@@ -29,11 +40,13 @@ public class AdminBanUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_ban_users);
 
+        // Inicialización de vistas y Firebase Firestore
         editTextEmail = findViewById(R.id.editTextEmail);
         buttonBanUser = findViewById(R.id.buttonBanUser);
         buttonBackToMenu = findViewById(R.id.buttonBackToMenu);
         db = FirebaseFirestore.getInstance();
 
+        // Configuración del botón para prohibir usuario
         buttonBanUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +54,7 @@ public class AdminBanUsersActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(AdminBanUsersActivity.this, "Please enter an email", Toast.LENGTH_SHORT).show();
                 } else {
+                    // Verificar si el correo electrónico existe y está baneado
                     checkIfEmailExists(email, new EmailCheckCallback() {
                         @Override
                         public void onEmailCheckCompleted(boolean emailExists, boolean isBanned) {
@@ -48,7 +62,7 @@ public class AdminBanUsersActivity extends AppCompatActivity {
                                 if (isBanned) {
                                     Toast.makeText(AdminBanUsersActivity.this, "User is already banned", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    banUser(email);
+                                    banUser(email); // Prohibir al usuario si no está baneado
                                 }
                             } else {
                                 Toast.makeText(AdminBanUsersActivity.this, "User with email " + email + " does not exist", Toast.LENGTH_SHORT).show();
@@ -59,6 +73,7 @@ public class AdminBanUsersActivity extends AppCompatActivity {
             }
         });
 
+        // Configuración del botón para regresar al menú principal
         buttonBackToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +82,10 @@ public class AdminBanUsersActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Método para prohibir a un usuario actualizando el campo "banned" en Firestore.
+     * @param email Correo electrónico del usuario a prohibir.
+     */
     private void banUser(String email) {
         db.collection("users")
                 .whereEqualTo("email", email)
@@ -93,6 +112,11 @@ public class AdminBanUsersActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Método para verificar si un correo electrónico existe en Firestore y si está baneado.
+     * @param email Correo electrónico a verificar.
+     * @param callback Interfaz de callback para manejar el resultado de la verificación.
+     */
     private void checkIfEmailExists(String email, final EmailCheckCallback callback) {
         db.collection("users")
                 .whereEqualTo("email", email)
@@ -105,10 +129,13 @@ public class AdminBanUsersActivity extends AppCompatActivity {
                             boolean isBanned = false;
                             if (emailExists) {
                                 DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                                // Verificar si el usuario está baneado
                                 isBanned = documentSnapshot.getBoolean("banned") != null && documentSnapshot.getBoolean("banned");
                             }
+                            // Llamar al callback con los resultados de la verificación
                             callback.onEmailCheckCompleted(emailExists, isBanned);
                         } else {
+                            // Llamar al callback en caso de error
                             callback.onEmailCheckCompleted(false, false);
                         }
                     }

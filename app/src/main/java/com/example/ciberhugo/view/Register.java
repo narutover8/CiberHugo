@@ -1,3 +1,13 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ * Register permite a los usuarios registrarse en la aplicación introduciendo su correo electrónico,
+ * nombre de usuario, contraseña, número de teléfono y seleccionando el idioma de la interfaz. Verifica
+ * la disponibilidad del correo electrónico y número de teléfono antes de registrar al usuario en Firebase Firestore.
+ */
+
 package com.example.ciberhugo.view;
 
 import android.content.Intent;
@@ -53,23 +63,25 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
-        // Initialize Firebase Firestore
+        // Inicializar Firebase Firestore
         db = FirebaseFirestore.getInstance();
         firebaseDBConnection = new FirebaseDBConnection();
 
-        // Input User
+        // Inicializar campos de entrada
         etemail = findViewById(R.id.emailEditText);
         etUsr = findViewById(R.id.usernameEditText);
         etPswd = findViewById(R.id.passwordEditText);
         etConfPswd = findViewById(R.id.confirmPasswordEditText);
         etPhoneNumber = findViewById(R.id.phoneEditText);
 
-        // Register button
+        // Inicializar botón de registro
         btnRegister = findViewById(R.id.registerButton);
 
+        // Configurar listener para el botón de registro
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtener datos de los campos de entrada
                 String email = etemail.getText().toString().trim();
                 String username = etUsr.getText().toString().trim();
                 String password = etPswd.getText().toString().trim();
@@ -77,63 +89,75 @@ public class Register extends AppCompatActivity {
                 String phoneNumber = etPhoneNumber.getText().toString().trim();
                 Integer hours = 0;
 
+                // Validaciones de campos obligatorios
                 if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     showAlertDialog("Todos los campos son obligatorios, excepto el teléfono");
                     return;
                 }
 
+                // Validación de longitud mínima del nombre de usuario
                 if (username.length() < 4) {
                     showAlertDialog("El nombre de usuario debe tener al menos 4 caracteres");
                     return;
                 }
 
+                // Validación de caracteres permitidos en el nombre de usuario
                 if (!username.matches("^[a-zA-Z0-9]*$")) {
                     showAlertDialog("El nombre de usuario solo puede contener letras y números");
                     return;
                 }
 
+                // Validación de formato de correo electrónico
                 if (!isValidEmail(email)) {
                     showAlertDialog("Por favor ingrese un correo electrónico válido");
                     return;
                 }
 
+                // Validación de formato y complejidad de la contraseña
                 if (!isValidPassword(password)) {
                     showAlertDialog("La contraseña debe contener al menos 8 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (@#$%^&+=!)");
                     return;
                 }
 
+                // Validación de coincidencia de contraseñas
                 if (!password.equals(confirmPassword)) {
                     showAlertDialog("Las contraseñas no coinciden");
                     return;
                 }
 
+                // Validación de formato de número de teléfono español
                 if (!isValidSpanishPhoneNumber(phoneNumber)) {
                     showAlertDialog("Por favor ingrese un número de teléfono válido");
                     return;
                 }
 
-                // Verificar si el correo electrónico ya existe
+                // Verificar si el correo electrónico ya está en uso
                 checkIfEmailExists(email, new EmailCheckCallback() {
                     @Override
                     public void onEmailCheckCompleted(boolean emailExists) {
                         if (emailExists) {
                             Toast.makeText(Register.this, "El correo electrónico ya está en uso", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Verificar si el número de teléfono ya existe
+                            // Verificar si el número de teléfono ya está en uso
                             checkIfPhoneExists(phoneNumber, new PhoneCheckCallback() {
                                 @Override
                                 public void onPhoneCheckCompleted(boolean phoneExists) {
                                     if (phoneExists) {
                                         Toast.makeText(Register.this, "El número de teléfono ya está en uso", Toast.LENGTH_SHORT).show();
                                     } else {
+                                        // Hashear la contraseña antes de registrar al usuario
                                         String hashedPassword = hashPassword(password);
 
+                                        // Insertar usuario en Firebase Firestore
                                         firebaseDBConnection.insertUser(email, username, hashedPassword, phoneNumber,false,false, hours);
 
+                                        // Registrar la acción en FirebaseDBConnection
                                         String logMessage = "El usuario " + username + " se registró exitosamente.";
                                         firebaseDBConnection.insertLog(email, "Usuario Registrado", logMessage);
 
                                         Toast.makeText(Register.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+
+                                        // Redirigir al usuario a la actividad de inicio de sesión
                                         Intent intent = new Intent(Register.this, Login.class);
                                         startActivity(intent);
                                     }
@@ -145,27 +169,26 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        // Configurar listener para el enlace de inicio de sesión
         urlToLogin = findViewById(R.id.loginLinkTextView);
-
         urlToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Redirigir al usuario a la actividad de inicio de sesión
                 Intent intent = new Intent(Register.this, Login.class);
                 startActivity(intent);
             }
         });
 
+        // Configurar adaptador y listener para el selector de idioma
         languageSpinner = findViewById(R.id.languageSpinner);
-
         LogsFragment[] languageItems = {
                 new LogsFragment(R.drawable.icoselect, "Ninguno"),
                 new LogsFragment(R.drawable.icoesp, "Español"),
                 new LogsFragment(R.drawable.icoeng, "English")
         };
-
         CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, Arrays.asList(languageItems));
         languageSpinner.setAdapter(adapter);
-
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,17 +206,19 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    // Método para mostrar un cuadro de diálogo con un mensaje
     private void showAlertDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
         builder.setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Do nothing, just close the dialog
+                        // No hacer nada, simplemente cerrar el diálogo
                     }
                 });
         builder.create().show();
     }
 
+    // Método para establecer el idioma de la aplicación
     public void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = getResources();
@@ -206,11 +231,13 @@ public class Register extends AppCompatActivity {
         startActivity(refresh);
     }
 
+    // Método para validar la complejidad de la contraseña
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
         return password.matches(regex);
     }
 
+    // Método para hashear la contraseña
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

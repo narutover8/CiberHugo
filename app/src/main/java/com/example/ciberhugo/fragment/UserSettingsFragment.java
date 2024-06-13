@@ -1,3 +1,10 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ */
+
 package com.example.ciberhugo.fragment;
 
 import android.os.Bundle;
@@ -21,19 +28,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Fragmento para gestionar la configuración de usuario, incluyendo cambio de nombre de usuario y contraseña.
+ */
 public class UserSettingsFragment extends Fragment {
 
+    // Elementos de UI para cambiar nombre de usuario
     private LinearLayout layoutChangeUsername;
     private EditText etPreviousUsername;
     private EditText etNewUsername;
     private Button btnConfirmUsername;
 
+    // Elementos de UI para cambiar contraseña
     private LinearLayout layoutChangePassword;
     private EditText etCurrentPassword;
     private EditText etNewPassword;
     private EditText etConfirmPassword;
     private Button btnConfirmPassword;
 
+    // Instancias de Firebase
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -42,11 +55,11 @@ public class UserSettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        // Initialize Firebase
+        // Inicializar Firebase
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Initialize views
+        // Inicializar vistas
         layoutChangeUsername = view.findViewById(R.id.layoutChangeUsername);
         etPreviousUsername = view.findViewById(R.id.etPreviousUsername);
         etNewUsername = view.findViewById(R.id.etNewUsername);
@@ -58,7 +71,7 @@ public class UserSettingsFragment extends Fragment {
         etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
         btnConfirmPassword = view.findViewById(R.id.btnConfirmPassword);
 
-        // Configure button clicks
+        // Configurar clicks de botones
         view.findViewById(R.id.btnChangeUsername).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,12 +100,16 @@ public class UserSettingsFragment extends Fragment {
             }
         });
 
-        // Fetch and display current username
+        // Obtener y mostrar el nombre de usuario actual
         fetchUsername();
 
         return view;
     }
 
+    /**
+     * Método para cambiar la visibilidad de un layout.
+     * @param layout Layout cuya visibilidad se cambiará
+     */
     private void toggleVisibility(View layout) {
         if (layout.getVisibility() == View.GONE) {
             layout.setVisibility(View.VISIBLE);
@@ -101,6 +118,9 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para obtener y mostrar el nombre de usuario actual desde Firestore.
+     */
     private void fetchUsername() {
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -122,6 +142,9 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para manejar el clic en el botón de confirmar cambio de nombre de usuario.
+     */
     private void onConfirmUsernameClicked() {
         String newUsername = etNewUsername.getText().toString().trim();
         Bundle arguments = getArguments();
@@ -152,6 +175,9 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para manejar el clic en el botón de confirmar cambio de contraseña.
+     */
     private void onConfirmPasswordClicked() {
         String currentPassword = etCurrentPassword.getText().toString().trim();
         String newPassword = etNewPassword.getText().toString().trim();
@@ -207,6 +233,11 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para hashear una contraseña usando el algoritmo SHA-256.
+     * @param password Contraseña a ser hasheada
+     * @return Hash de la contraseña
+     */
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -225,6 +256,11 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para validar si una contraseña cumple con los requisitos de seguridad.
+     * @param password Contraseña a validar
+     * @return true si la contraseña es válida, false si no lo es
+     */
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
         return password.matches(regex);

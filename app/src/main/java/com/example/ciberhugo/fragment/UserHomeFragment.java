@@ -1,3 +1,10 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ */
+
 package com.example.ciberhugo.fragment;
 
 import android.content.Context;
@@ -28,51 +35,53 @@ import java.util.concurrent.TimeUnit;
 
 public class UserHomeFragment extends Fragment {
 
+    // Elementos de la interfaz de usuario (UI)
     private TextView timeCounter;
     private TextView welcomeText;
-    private FirebaseFirestore db;
-
     private Button btnLogout;
     private Button btnViewReservation;
     private Button btnGoToHtml;
 
-    private String email;
-
-    private static final String TAG = "HomeFragment";
+    // Instancia de la base de datos Firebase Firestore
+    private FirebaseFirestore db;
+    private String email;  // Email del usuario
+    private static final String TAG = "HomeFragment";  // Etiqueta para logs
+    private CountDownTimer countDownTimer;  // Temporizador para la cuenta regresiva
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
+        // Inflar el diseño del fragmento
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Inicializar los elementos de la interfaz de usuario
         timeCounter = view.findViewById(R.id.time_counter);
         welcomeText = view.findViewById(R.id.welcome_text);
+        btnLogout = view.findViewById(R.id.button_logout);
+        btnViewReservation = view.findViewById(R.id.button_reserve);
+        btnGoToHtml = view.findViewById(R.id.button_website);
+
+        // Inicializar la instancia de Firebase Firestore
         db = FirebaseFirestore.getInstance();
 
+        // Obtener el email pasado como argumento a este fragmento
         if (getArguments() != null) {
             email = getArguments().getString("email");
         }
 
+        // Si el email no es nulo, obtener los detalles del usuario desde Firestore
         if (email != null) {
             getUserDetails();
         } else {
             timeCounter.setText("Error: Email not found");
         }
 
-        // Initialize buttons
-        btnLogout = view.findViewById(R.id.button_logout);
-        btnViewReservation = view.findViewById(R.id.button_reserve);
-        btnGoToHtml = view.findViewById(R.id.button_website);
-
+        // Configurar los listeners para los botones
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Actualizar el tiempo restante en la base de datos antes de iniciar la actividad Login
-                onStop();
-
-                // Iniciar la actividad Login
-                Intent intentLogOut = new Intent(getActivity(), Login.class);
+                onStop();  // Llamar a onStop para guardar el tiempo restante y cancelar el temporizador
+                Intent intentLogOut = new Intent(getActivity(), Login.class);  // Iniciar la actividad de login
                 startActivity(intentLogOut);
             }
         });
@@ -80,8 +89,8 @@ public class UserHomeFragment extends Fragment {
         btnViewReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentReserv = new Intent(getActivity(), ReservationActivity.class);
-                intentReserv.putExtra("email", email);
+                Intent intentReserv = new Intent(getActivity(), ReservationActivity.class);  // Iniciar la actividad de reservaciones
+                intentReserv.putExtra("email", email);  // Pasar el email a la actividad de reservaciones
                 startActivity(intentReserv);
             }
         });
@@ -89,13 +98,10 @@ public class UserHomeFragment extends Fragment {
         btnGoToHtml.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Define la URL a la que deseas dirigir al usuario
                 String url = "https://villodreshugo.wixsite.com/ciberhugo";
                 Uri link = Uri.parse(url);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, link);
+                Intent intent = new Intent(Intent.ACTION_VIEW, link);  // Abrir la URL en un navegador web
                 startActivity(intent);
-
             }
         });
 
@@ -105,21 +111,30 @@ public class UserHomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        updateRemainingTime();
+        updateRemainingTime();  // Guardar el tiempo restante en Firestore
+        if (countDownTimer != null) {
+            countDownTimer.cancel();  // Cancelar el temporizador de cuenta regresiva
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        updateRemainingTime();
+        updateRemainingTime();  // Guardar el tiempo restante en Firestore
+        if (countDownTimer != null) {
+            countDownTimer.cancel();  // Cancelar el temporizador de cuenta regresiva
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateTimeCounter();
+        updateTimeCounter();  // Actualizar el contador de tiempo al reanudar el fragmento
     }
 
+    /**
+     * Método para obtener los detalles del usuario desde Firestore.
+     */
     private void getUserDetails() {
         db.collection("users")
                 .whereEqualTo("email", email)
@@ -149,6 +164,10 @@ public class UserHomeFragment extends Fragment {
                 });
     }
 
+    /**
+     * Método para guardar el tiempo de inicio en las preferencias compartidas.
+     * @param startTimeInSeconds Tiempo de inicio en segundos
+     */
     private void saveStartTimeToPreferences(long startTimeInSeconds) {
         Context context = getActivity();
         if (context != null) {
@@ -159,16 +178,21 @@ public class UserHomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para iniciar la cuenta regresiva del tiempo restante.
+     * @param timeLeftInSeconds Tiempo restante en segundos
+     */
     private void startCountDown(long timeLeftInSeconds) {
         long timeLeftInMillis = timeLeftInSeconds * 1000;
-
-        new CountDownTimer(timeLeftInMillis, 1000) {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60;
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60;
-
                 String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
                 timeCounter.setText(timeFormatted);
             }
@@ -178,11 +202,13 @@ public class UserHomeFragment extends Fragment {
                 timeCounter.setText("00:00:00");
                 timeCounter.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
                 Toast.makeText(getActivity(), "Tu tiempo ha terminado, por favor compra más horas.", Toast.LENGTH_LONG).show();
-
             }
         }.start();
     }
 
+    /**
+     * Método para actualizar el contador de tiempo al reanudar el fragmento.
+     */
     private void updateTimeCounter() {
         Context context = getActivity();
         if (context != null) {
@@ -214,15 +240,20 @@ public class UserHomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Método para actualizar el tiempo restante en la base de datos.
+     */
     private void updateRemainingTime() {
-        // Obtener el tiempo restante del TextView
         String timeString = timeCounter.getText().toString();
         long timeLeftInSeconds = parseTimeStringToSeconds(timeString);
-
-        // Actualizar el tiempo restante en la base de datos
         updateRemainingTimeInDatabase(email, timeLeftInSeconds);
     }
 
+    /**
+     * Método para convertir una cadena de tiempo en formato HH:mm:ss a segundos.
+     * @param timeString Cadena de tiempo en formato HH:mm:ss
+     * @return Tiempo en segundos
+     */
     private long parseTimeStringToSeconds(String timeString) {
         String[] parts = timeString.split(":");
         long hours = Long.parseLong(parts[0]);
@@ -231,15 +262,18 @@ public class UserHomeFragment extends Fragment {
         return (hours * 3600) + (minutes * 60) + seconds;
     }
 
+    /**
+     * Método para actualizar el tiempo restante en la base de datos Firestore.
+     * @param email Email del usuario
+     * @param timeLeftInSeconds Tiempo restante en segundos
+     */
     private void updateRemainingTimeInDatabase(String email, long timeLeftInSeconds) {
         db.collection("users")
                 .whereEqualTo("email", email)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot document : queryDocumentSnapshots) {
-                        // Obtener el ID del documento
                         String documentId = document.getId();
-                        // Actualizar el campo "timeLeft" en el documento encontrado
                         db.collection("users")
                                 .document(documentId)
                                 .update("timeLeft", timeLeftInSeconds)

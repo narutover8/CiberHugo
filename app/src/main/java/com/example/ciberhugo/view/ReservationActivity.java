@@ -1,3 +1,13 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ * ReservationActivity permite a los usuarios realizar reservas, especificando la fecha,
+ * hora, número de personas y motivo. Verifica la disponibilidad de la fecha y hora seleccionadas,
+ * y guarda la reserva en Firebase Firestore si está disponible.
+ */
+
 package com.example.ciberhugo.view;
 
 import android.content.Intent;
@@ -42,6 +52,7 @@ public class ReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reservations);
 
+        // Inicializar vistas
         datePicker = findViewById(R.id.datePicker);
         spinnerPeople = findViewById(R.id.spinnerPeople);
         spinnerReason = findViewById(R.id.spinnerReason);
@@ -50,6 +61,7 @@ public class ReservationActivity extends AppCompatActivity {
         buttonReserve = findViewById(R.id.buttonReserve);
         buttonBackToHome = findViewById(R.id.buttonBackToHome);
 
+        // Inicializar Firebase Firestore
         db = FirebaseFirestore.getInstance();
 
         // Inicializar FirebaseDBConnection
@@ -58,6 +70,7 @@ public class ReservationActivity extends AppCompatActivity {
         // Obtener el correo electrónico del intent
         email = getIntent().getStringExtra("email");
 
+        // Configurar listener para el spinner de motivo
         spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -75,6 +88,7 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
+        // Configurar listener para el botón de reservar
         buttonReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +96,7 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
+        // Configurar listener para el botón de volver a la página principal
         buttonBackToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +109,9 @@ public class ReservationActivity extends AppCompatActivity {
         });
     }
 
+    // Método para guardar la reserva
     private void saveReservation() {
+        // Obtener los datos seleccionados por el usuario
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth();
         int year = datePicker.getYear();
@@ -121,10 +138,12 @@ public class ReservationActivity extends AppCompatActivity {
             return;
         }
 
+        // Si el motivo seleccionado es "Other", obtener el motivo de editTextOtherReason
         if (reason.equals("Other")) {
             reason = editTextOtherReason.getText().toString().trim();
         }
 
+        // Verificar que se haya especificado un motivo
         if (reason.isEmpty()) {
             Toast.makeText(this, "Por favor, especifica una razón", Toast.LENGTH_SHORT).show();
             return;
@@ -165,6 +184,7 @@ public class ReservationActivity extends AppCompatActivity {
                                     .add(reservation)
                                     .addOnSuccessListener(documentReference -> {
                                         Toast.makeText(ReservationActivity.this, "Reserva guardada", Toast.LENGTH_SHORT).show();
+                                        // Registrar la acción en FirebaseDBConnection
                                         firebaseDBConnection.insertLog(email, "Reserva realizada", "Reserva realizada correctamente para el usuario con email: " + email);
                                     })
                                     .addOnFailureListener(e -> Toast.makeText(ReservationActivity.this, "Fallo al guardar la reserva", Toast.LENGTH_SHORT).show());

@@ -1,3 +1,10 @@
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ */
+
 package com.example.ciberhugo.fragment;
 
 import android.os.Bundle;
@@ -20,49 +27,58 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Fragmento para gestionar la compra de horas de usuario.
+ */
 public class UserWalletFragment extends Fragment {
 
-    private FirebaseFirestore db;
-    private RadioGroup radioGroupHours;
-    private Button buttonBuy;
-    private FirebaseDBConnection firebaseDBConnection;
+    private FirebaseFirestore db;             // Instancia de Firestore
+    private RadioGroup radioGroupHours;       // Grupo de botones de radio para seleccionar horas
+    private Button buttonBuy;                 // Botón para realizar la compra
+    private FirebaseDBConnection firebaseDBConnection;  // Instancia para la conexión a la base de datos
 
-    private String userEmail;
+    private String userEmail;                 // Correo electrónico del usuario actual
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflar el diseño de este fragmento
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
-        db = FirebaseFirestore.getInstance();
-        firebaseDBConnection = new FirebaseDBConnection();
+        db = FirebaseFirestore.getInstance();  // Inicializar Firestore
+        firebaseDBConnection = new FirebaseDBConnection();  // Inicializar la conexión a la base de datos
 
-        radioGroupHours = view.findViewById(R.id.radioGroupHours);
-        buttonBuy = view.findViewById(R.id.button_buy);
+        radioGroupHours = view.findViewById(R.id.radioGroupHours);  // Obtener referencia al grupo de botones de radio
+        buttonBuy = view.findViewById(R.id.button_buy);             // Obtener referencia al botón de compra
 
-        // Assuming userEmail is passed through arguments
+        // Obtener el correo electrónico del usuario desde los argumentos del fragmento
         Bundle arguments = getArguments();
         if (arguments != null) {
             userEmail = arguments.getString("email");
         }
 
+        // Configurar el listener para el botón de compra
         buttonBuy.setOnClickListener(v -> onBuyButtonClicked());
 
-        return view;
+        return view;  // Devolver la vista inflada
     }
 
+    /**
+     * Método para manejar el clic en el botón de compra.
+     */
     private void onBuyButtonClicked() {
-        int selectedId = radioGroupHours.getCheckedRadioButtonId();
+        int selectedId = radioGroupHours.getCheckedRadioButtonId();  // Obtener el ID del botón de radio seleccionado
 
         if (selectedId == -1) {
-            Toast.makeText(getContext(), "Selecciona una opción de horas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Selecciona una opción de horas", Toast.LENGTH_SHORT).show();  // Mostrar mensaje si no se seleccionó ninguna opción
             return;
         }
 
+        // Variables para almacenar los detalles de la compra seleccionada
         int hoursToBuy = 0;
         double totalSpent = 0.0;
         int secondsToAdd = 0;
 
+        // Determinar la cantidad de horas, el costo total y los segundos adicionales según la opción seleccionada
         if (selectedId == R.id.radio_1h) {
             hoursToBuy = 1;
             totalSpent = 2.0;
@@ -81,9 +97,17 @@ public class UserWalletFragment extends Fragment {
             secondsToAdd = 10 * 3600;
         }
 
+        // Guardar la orden en la base de datos
         saveOrder(userEmail, hoursToBuy, totalSpent, secondsToAdd);
     }
 
+    /**
+     * Método para guardar la orden de compra en Firestore.
+     * @param email Correo electrónico del usuario
+     * @param hoursToBuy Cantidad de horas a comprar
+     * @param totalSpent Total gastado en la compra
+     * @param secondsToAdd Segundos a agregar al tiempo actual del usuario
+     */
     private void saveOrder(String email, int hoursToBuy, double totalSpent, int secondsToAdd) {
         // Crear un mapa para almacenar los datos de la orden
         Map<String, Object> order = new HashMap<>();
@@ -91,17 +115,21 @@ public class UserWalletFragment extends Fragment {
         order.put("quantity", hoursToBuy);
         order.put("prize", totalSpent);
 
-        // Agregar la orden a la colección "users" en Firestore
+        // Buscar al usuario por su correo electrónico en Firestore
         db.collection("users")
                 .whereEqualTo("email", email)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // Obtener el ID del usuario encontrado
                         String userId = task.getResult().getDocuments().get(0).getId();
+
+                        // Actualizar la colección de usuarios con la nueva orden y el tiempo adicional
                         db.collection("users").document(userId)
                                 .update("Order", FieldValue.arrayUnion(order), "timeLeft", FieldValue.increment(secondsToAdd))
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(getContext(), "Compra realizada con éxito", Toast.LENGTH_SHORT).show();
+                                    // Registrar la compra en el registro de actividades
                                     firebaseDBConnection.insertLog(email, "Compra de horas", "Compra de " + hoursToBuy + " hora/s por " + totalSpent + " €");
                                 })
                                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Error al realizar la compra", Toast.LENGTH_SHORT).show());

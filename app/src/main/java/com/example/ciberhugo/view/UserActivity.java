@@ -1,4 +1,13 @@
-// UserActivity.java
+/**
+ * Autor: Hugo Villodres Moreno
+ * Fecha de entrega: 14/06/2024
+ * Proyecto TFG FINAL
+ * Curso: 2ºDAM
+ * UserActivity es la actividad principal para usuarios registrados.
+ * Permite navegar entre diferentes fragmentos (Home, Wallet, Settings) mediante
+ * un BottomNavigationView y pasa el correo electrónico del usuario a cada fragmento.
+ */
+
 package com.example.ciberhugo.view;
 
 import android.annotation.SuppressLint;
@@ -23,8 +32,10 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        // Obtener la referencia del BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        // Obtener el intent que inició esta actividad y extraer el correo electrónico del usuario
         Intent intent = getIntent();
         String email = intent.getStringExtra("email");
 
@@ -32,12 +43,14 @@ public class UserActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("email", email);
 
+        // Configurar el listener para el BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
                 int id = item.getItemId();
 
+                // Determinar qué fragmento se debe mostrar según la opción seleccionada
                 if (id == R.id.navigation_home) {
                     selectedFragment = new UserHomeFragment();
                     selectedFragment.setArguments(bundle); // Pasar el bundle al fragmento
@@ -49,6 +62,7 @@ public class UserActivity extends AppCompatActivity {
                     selectedFragment.setArguments(bundle); // Pasar el bundle al fragmento
                 }
 
+                // Reemplazar el fragmento en el contenedor principal si se seleccionó uno válido
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_content, selectedFragment).commit();
                 }
@@ -57,7 +71,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        // Selección predeterminada
+        // Establecer la selección predeterminada en el BottomNavigationView
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 }

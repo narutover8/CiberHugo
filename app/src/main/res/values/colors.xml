@@ -9,5 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="gray">#666666</color>
+    <color name="background">#FFFFFF</color>
+    <color name="text">#000000</color>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
 </resources>
 
