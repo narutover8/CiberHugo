@@ -1,10 +1,3 @@
-/**
- * Autor: Hugo Villodres Moreno
- * Fecha de entrega: 14/06/2024
- * Proyecto TFG FINAL
- * Curso: 2ºDAM
- */
-
 package com.example.ciberhugo.adapter;
 
 import android.view.LayoutInflater;
@@ -21,6 +14,7 @@ import com.example.ciberhugo.model.Log;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Adaptador para gestionar la lista de registros (logs) en un RecyclerView.
@@ -28,7 +22,7 @@ import java.util.Locale;
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
     private List<Log> logList; // Lista de registros (logs)
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()); // Formato de fecha y hora
+    private SimpleDateFormat dateFormat; // Formato de fecha y hora
 
     /**
      * Constructor del adaptador.
@@ -36,6 +30,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
      */
     public LogAdapter(List<Log> logList) {
         this.logList = logList;
+        // Configurar el formato de fecha y hora con la zona horaria local
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
     }
 
     /**
@@ -67,6 +63,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
         // Verificar si la fecha no es nula antes de usarla
         if (log.getDate() != null) {
+            dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Madrid")); // Configurar la zona horaria a la zona horaria de Madrid
             holder.dateTextView.setText(dateFormat.format(log.getDate())); // Formatear y establecer la fecha en formato específico
         } else {
             holder.dateTextView.setText("No date available"); // Mostrar mensaje si la fecha es nula

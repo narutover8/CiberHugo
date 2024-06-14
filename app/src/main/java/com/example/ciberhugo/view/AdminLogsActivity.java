@@ -23,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -86,6 +88,13 @@ public class AdminLogsActivity extends AppCompatActivity {
                     Log log = new Log(email, action, detail, date);
                     logList.add(log);
                 }
+                // Ordenar la lista de logs por fecha de forma descendente
+                Collections.sort(logList, new Comparator<Log>() {
+                    @Override
+                    public int compare(Log log1, Log log2) {
+                        return log2.getDate().compareTo(log1.getDate());
+                    }
+                });
                 // Notificar al adaptador que los datos han cambiado
                 logAdapter.notifyDataSetChanged();
             } else {
